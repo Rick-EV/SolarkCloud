@@ -4,15 +4,15 @@ while :
 do
 CONFIG_PATH=/data/options.json
 
-sunsynk_user=""
-sunsynk_pass=""
-sunsynk_serial=""
+solark_user=""
+solark_pass=""
+solark_serial=""
 HA_LongLiveToken=""
 Home_Assistant_IP=""
 
-sunsynk_user="$(bashio::config 'sunsynk_user')"
-sunsynk_pass="$(bashio::config 'sunsynk_pass')"
-sunsynk_serial="$(bashio::config 'sunsynk_serial')"
+solark_user="$(bashio::config 'sunsynk_user')"
+solark_pass="$(bashio::config 'sunsynk_pass')"
+solark_serial="$(bashio::config 'sunsynk_serial')"
 HA_LongLiveToken="$(bashio::config 'HA_LongLiveToken')"
 Home_Assistant_IP="$(bashio::config 'Home_Assistant_IP')"
 Home_Assistant_PORT="$(bashio::config 'Home_Assistant_PORT')"
