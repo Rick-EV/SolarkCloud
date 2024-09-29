@@ -31,7 +31,7 @@ dt=$(date '+%d/%m/%Y %H:%M:%S')
 
 echo ""
 echo ------------------------------------------------------------------------------
-echo -- SolarSynk - Log
+echo -- Solark - Log
 echo ------------------------------------------------------------------------------
 echo "Script execution date & time:" $dt
 echo "Verbose logging is set to:" $Enable_Verbose_Log
