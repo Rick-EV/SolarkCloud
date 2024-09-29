@@ -411,7 +411,7 @@ else
 		echo "Updating Helper: input_text.solark_"$inverter_serial"_inverter_settings with:" $InverterSettings
 		curl -s -k -X POST -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com//api/v1/common/setting/$inverter_serial/set -d $InverterSettings | jq -r '.'
 	fi 
-	#Reset settings entitities to prevent the same settings from being posted over and over
+	#Reset settings entities to prevent the same settings from being posted over and over
 	echo "Clearing previously set temporary settings."
 	curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"unit_of_measurement": "", "friendly_name": "solark_inverter_settings"}, "state": ""}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/input_text.solark_"$inverter_serial"_inverter_settings > /dev/null
 fi
@@ -427,6 +427,6 @@ done
 fi
 #EOF Check if Token is valid
 
-echo "All Done! Waiting " $Refresh_rate " sesonds to rinse and repeat."
+echo "All Done! Waiting " $Refresh_rate " seconds to rinse and repeat."
 sleep $Refresh_rate
 done
