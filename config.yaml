@@ -1,5 +1,5 @@
-name: "SolarSynk"
-description: "Home Assistant add-on for syncing solar/inverter data from SynSynk.net"
+name: "SolarkCloud"
+description: "Home Assistant add-on for syncing solar/inverter data from MySolark.com"
 version: "2.1.14"
 slug: "solar_synk"
 init: false
@@ -11,9 +11,9 @@ arch:
   - i386
   
 options:
-  sunsynk_user: ""
-  sunsynk_pass: ""
-  sunsynk_serial: ""
+  solark_user: ""
+  solark_pass: ""
+  solark_serial: ""
   Home_Assistant_IP: ""
   Home_Assistant_PORT: 8123
   HA_LongLiveToken: ""
@@ -22,9 +22,9 @@ options:
   Enable_Verbose_Log: false
   
 schema:
-  sunsynk_user: str
-  sunsynk_pass: password
-  sunsynk_serial: str
+  solark_user: str
+  solark_pass: password
+  solark_serial: str
   Home_Assistant_IP: str
   Home_Assistant_PORT: int
   HA_LongLiveToken: password
