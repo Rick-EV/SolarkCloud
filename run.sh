@@ -42,7 +42,7 @@ echo "HTTP Connect type:" $HTTP_Connect_Type
 #echo $HA_LongLiveToken
 
 echo "Getting bearer token from solar service provider's API."
-ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.sunsynk.net/oauth/token -d '{"areaCode": "sunsynk","client_id": "csp-web","grant_type": "password","password": "'"$sunsynk_pass"'","source": "sunsynk","username": "'"$sunsynk_user"'"}' | jq -r '.data.access_token')
+ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://www.solarkcloud.com/oauth/token -d '{"areaCode": "sunsynk","client_id": "csp-web","grant_type": "password","password": "'"$sunsynk_pass"'","source": "sunsynk","username": "'"$sunsynk_user"'"}' | jq -r '.data.access_token')
 
 echo "Bearer Token length:" ${#ServerAPIBearerToken}
 
@@ -51,12 +51,12 @@ if [  -z "$ServerAPIBearerToken"  ]
 then
 	echo "****Token could not be retrieved due to the following possibilities****"
 	echo "Incorrect setup, please check the configuration tab."
-	echo "Either this HA instance cannot reach Sunsynk.net due to network problems or the Sunsynk server is down."
-	echo "The Sunsynk server admins are rejecting due to too frequent connection requests."
+	echo "Either this HA instance cannot reach SolarkCloud due to network problems or the SolarkCloud server is down."
+	echo "The SolarkCloud server admins are rejecting due to too frequent connection requests."
 	echo ""
 	echo "This Script will not continue to run but will continue to loop. No values were updated."
 	echo "Dumping Curl output for more information below."
-	ServerAPIBearerToken=$(curl -v -s -X POST -H "Content-Type: application/json" https://api.sunsynk.net/oauth/token -d '{"areaCode": "sunsynk","client_id": "csp-web","grant_type": "password","password": "'"$sunsynk_pass"'","source": "sunsynk","username": "'"$sunsynk_user"'"}' | jq -r '.')
+	ServerAPIBearerToken=$(curl -v -s -X POST -H "Content-Type: application/json" https://www.solarkcloud.com/oauth/token -d '{"areaCode": "sunsynk","client_id": "csp-web","grant_type": "password","password": "'"$sunsynk_pass"'","source": "sunsynk","username": "'"$sunsynk_user"'"}' | jq -r '.')
 	echo $ServerAPIBearerToken
 	
 else
