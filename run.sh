@@ -10,9 +10,9 @@ solark_serial=""
 HA_LongLiveToken=""
 Home_Assistant_IP=""
 
-solark_user="$(bashio::config 'sunsynk_user')"
-solark_pass="$(bashio::config 'sunsynk_pass')"
-solark_serial="$(bashio::config 'sunsynk_serial')"
+solark_user="$(bashio::config 'solark_user')"
+solark_pass="$(bashio::config 'solark_pass')"
+solark_serial="$(bashio::config 'solark_serial')"
 HA_LongLiveToken="$(bashio::config 'HA_LongLiveToken')"
 Home_Assistant_IP="$(bashio::config 'Home_Assistant_IP')"
 Home_Assistant_PORT="$(bashio::config 'Home_Assistant_PORT')"
@@ -36,13 +36,13 @@ echo ---------------------------------------------------------------------------
 echo "Script execution date & time:" $dt
 echo "Verbose logging is set to:" $Enable_Verbose_Log
 echo "HTTP Connect type:" $HTTP_Connect_Type
-#echo $sunsynk_user
-#echo $sunsynk_pass
-#echo $sunsynk_serial
+#echo $solark_user
+#echo $solark_pass
+#echo $solark_serial
 #echo $HA_LongLiveToken
 
 echo "Getting bearer token from solar service provider's API."
-ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://www.solarkcloud.com/oauth/token -d '{"areaCode": "sunsynk","client_id": "csp-web","grant_type": "password","password": "'"$sunsynk_pass"'","source": "sunsynk","username": "'"$sunsynk_user"'"}' | jq -r '.data.access_token')
+ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://www.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
 
 echo "Bearer Token length:" ${#ServerAPIBearerToken}
 
@@ -56,20 +56,20 @@ then
 	echo ""
 	echo "This Script will not continue to run but will continue to loop. No values were updated."
 	echo "Dumping Curl output for more information below."
-	ServerAPIBearerToken=$(curl -v -s -X POST -H "Content-Type: application/json" https://www.solarkcloud.com/oauth/token -d '{"areaCode": "sunsynk","client_id": "csp-web","grant_type": "password","password": "'"$sunsynk_pass"'","source": "sunsynk","username": "'"$sunsynk_user"'"}' | jq -r '.')
+	ServerAPIBearerToken=$(curl -v -s -X POST -H "Content-Type: application/json" https://www.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.')
 	echo $ServerAPIBearerToken
 	
 else
 
 
-#echo "Sunsynk Server API Token:" $ServerAPIBearerToken
-echo "Sunsynk Server API Token: Hidden for security reasons"
+#echo "Solark Server API Token:" $ServerAPIBearerToken
+echo "Solark Server API Token: Hidden for security reasons"
 echo "Refresh rate set to:" $Refresh_rate "seconds."
-echo "Note: Setting the refresh rate lower than the update rate of SunSynk is pointless and will just result in wasted disk space."
+echo "Note: Setting the refresh rate lower than the update rate of Solark is pointless and will just result in wasted disk space."
 
 
 IFS=";"
-for inverter_serial in $sunsynk_serial
+for inverter_serial in $solark_serial
 do
 # BOF Serial Number Loop
 
@@ -85,14 +85,14 @@ rm -rf dcactemp.json
 rm -rf inverterinfo.json
 
 echo "Please wait while curl is fetching input, grid, load, battery & output data..."
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.sunsynk.net/api/v1/inverter/$inverter_serial/realtime/input -o "pvindata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.sunsynk.net/api/v1/inverter/grid/$inverter_serial/realtime?sn=$inverter_serial -o "griddata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.sunsynk.net/api/v1/inverter/load/$inverter_serial/realtime?sn=$inverter_serial -o "loaddata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" "https://api.sunsynk.net/api/v1/inverter/battery/$inverter_serial/realtime?sn=$inverter_serial&lan=en" -o "batterydata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.sunsynk.net/api/v1/inverter/$inverter_serial/realtime/output -o "outputdata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" "https://api.sunsynk.net/api/v1/inverter/$inverter_serial/output/day?lan=en&date=$VarCurrentDate&column=dc_temp,igbt_temp" -o "dcactemp.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.sunsynk.net/api/v1/inverter/$inverter_serial  -o "inverterinfo.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.sunsynk.net/api/v1/common/setting/$inverter_serial/read  -o "settings.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/$inverter_serial/realtime/input -o "pvindata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/grid/$inverter_serial/realtime?sn=$inverter_serial -o "griddata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/load/$inverter_serial/realtime?sn=$inverter_serial -o "loaddata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" "https://www.solarkcloud.com/api/v1/inverter/battery/$inverter_serial/realtime?sn=$inverter_serial&lan=en" -o "batterydata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/$inverter_serial/realtime/output -o "outputdata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" "https://www.solarkcloud.com/api/v1/inverter/$inverter_serial/output/day?lan=en&date=$VarCurrentDate&column=dc_temp,igbt_temp" -o "dcactemp.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/$inverter_serial  -o "inverterinfo.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/common/setting/$inverter_serial/read  -o "settings.json"
 
 
 
@@ -116,9 +116,9 @@ echo "Inverter S/N:" $inverterinfo_serial
 echo ------------------------------------------------------------------------------
 
 #Unused
-#curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.sunsynk.net/api/v1/inverter/$sunsynk_serial/flow -o "flowdata.json"
-# Read Settings https://api.sunsynk.net/api/v1/common/setting/$sunsynk_serial/read
-# Save Settings https://api.sunsynk.net/api/v1/common/setting/$sunsynk_serial/set
+#curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solark.com/api/v1/inverter/$solark_serial/flow -o "flowdata.json"
+# Read Settings https://www.dolarkcloud.com/api/v1/common/setting/$solark_serial/read
+# Save Settings https://www.solarkcloud.com/api/v1/common/setting/$solark_serial/set
 
 
 echo "Data fetched for serial $inverter_serial. Enable verbose logging to see more information."
