@@ -117,7 +117,7 @@ echo ---------------------------------------------------------------------------
 
 #Unused
 #curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solark.com/api/v1/inverter/$solark_serial/flow -o "flowdata.json"
-# Read Settings https://www.dolarkcloud.com/api/v1/common/setting/$solark_serial/read
+# Read Settings https://www.solarkcloud.com/api/v1/common/setting/$solark_serial/read
 # Save Settings https://www.solarkcloud.com/api/v1/common/setting/$solark_serial/set
 
 
