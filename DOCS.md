@@ -25,7 +25,7 @@ Paste the following repository link and click add then close https://github.com/
 
 Refresh the browser page. Right at the bottom you should now see the "SolarCloud" add-on. Simply click on it then click "Install"
 
-![](https://github.com/Rick-EV/SolarkCloud/blob/main/solarsynkaddon.png)
+![](https://github.com/Rick-EV/SolarkCloud/blob/main/solarkaddon.png)
 
 
 ### Provide your SolarCloud.com credentials
@@ -37,16 +37,14 @@ DO NOT USE localhost or 127.0.0.1 in the IP field, either use the actual IP or h
 In case you are unsure what your Sol-ark inverter's serial number is. Log into the solarcloud.com portal and copy the serial number from the "Inverter" menu item.
 For multiple inverters separate the inverter serial numbers with a semicolon; Example 123456;7890123
 
-![](https://github.com/Rick-EV/SolarkCloud/blob/main/sunserial.png)
+![](https://github.com/Rick-EV/SolarkCloud/blob/main/solserial.png)
 
 Make sure you also populate the "HA_LongLiveToken" field with the long-lived token that you created earlier on.
 
 ### Start the script
 After entering all of the required information you can go ahead and start the service script.
 
-![](https://github.com/Rick-EV/SolarkCloud/blob/main/solarkkstarted.png)
+![](https://github.com/Rick-EV/SolarkCloud/blob/main/solarkstarted.png)
 
 Once started make sure all is working by clicking on the "log" tab. Scroll through the log and check that the sensor data was populated correctly.
 Few values will be "0" if you for instance only have a single string of solar panels MPPT-2 values will be "0". If something goes wrong ALL of the sensors will have a "0" or "Null" value. 
-
-
