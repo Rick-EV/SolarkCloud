@@ -160,6 +160,7 @@ grid_connected_status=$(jq -r '.data.status' griddata.json); if [ $grid_connecte
 grid_frequency=$(jq -r '.data.fac' griddata.json); if [ $grid_frequency == "null" ]; then grid_frequency="0"; fi;
 grid_power=$(jq -r '.data.vip[0].power' griddata.json); if [ $grid_power == "null" ]; then grid_power="0"; fi;
 grid_voltage=$(jq -r '.data.vip[0].volt' griddata.json); if [ $grid_voltage == "null" ]; then grid_voltage="0"; fi;
+grid_voltage=$(jq -r '.data.vip[1].volt' griddata.json); if [ $grid_voltage == "null" ]; then grid_voltage="0"; fi;
 grid_current=$(jq -r '.data.vip[0].current' griddata.json); if [ $grid_current == "null" ]; then grid_current="0"; fi;
 inverter_current=$(jq -r '.data.vip[0].current' outputdata.json); if [ $inverter_current == "null" ]; then inverter_current="0"; fi;
 inverter_frequency=$(jq -r '.data.fac' outputdata.json); if [ $inverter_frequency == "null" ]; then inverter_frequency="0"; fi;
