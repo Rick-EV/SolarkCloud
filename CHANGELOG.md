@@ -1,3 +1,14 @@
+### 2024/11/06
+Version "2.1.16" - Extended entities to support 3 phase grid / inverter and added 2 extra MPPTs
+The following entities were added.
+Grid Phase - Power, Voltage, Current 
+Grid Phase1 - Power, Voltage, Current 
+Grid Phase2 - Power, Voltage, Current
+Inverter Phase - Power, Voltage, Current 
+Inverter Phase1 - Power, Voltage, Current 
+Inverter Phase2 - Power, Voltage, Current
+PV MPPT3 and PV MPPT4
+
 ### 2024/10/13
 Version "2.1.16" - Added MPPT 3 & 4
 Added Voltage line 2 or L2 which was not being displayed on the flow card
