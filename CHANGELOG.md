@@ -1,5 +1,8 @@
 ### 2024/11/06
-Version "2.1.16" - Extended entities to support 3 phase grid/inverter and added 2 extra MPPTs
+Version "2.1.16.6" - This update focuses on refining the entity naming convention for some sensor elements recently included. This ensures consistent, clear, and intuitive naming for all sensors.
+
+### 2024/11/06
+Version "2.1.16.5" - Extended entities to support 3 phase grid/inverter and added 2 extra MPPTs
 The following entities were added.
 Grid Phase - Power, Voltage, Current 
 Grid Phase1 - Power, Voltage, Current 
