@@ -1,3 +1,11 @@
+### 2024/11/14
+Version "2.1.17" - Added more entities
+Load UPS PowerL1
+Load UPS PowerL2
+Load UPS PowerL3
+Load UPS Total Power
+Bug Fix Correcting syntax error.
+
 ### 2024/11/06
 Version "2.1.16.6" - This update focuses on refining the entity naming convention for some sensor elements recently included. This ensures consistent, clear, and intuitive naming for all sensors.
 
