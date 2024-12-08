@@ -1,46 +1,188 @@
 type: custom:sunsynk-power-flow-card
-cardstyle: lite
+cardstyle: full
+card_width: 55%
+panel_mode: true
+large_font: false
+title: Sol-Ark Energy Flow
+title_colour: "#029ffa"
+title_size: 32px
 show_solar: true
+show_battery: true
+show_grid: true
+decimal_places: 2
+dynamic_line_width: false
+min_line_width: 1
+max_line_width: 4
+inverter:
+  modern: true
+  colour: "#f79517"
+  autarky: power
+  auto_scale: true
+  three_phase: true
+  model: deye
 battery:
-  energy: 0
-  shutdown_soc: 20
+  energy: 22800
+  shutdown_soc: 10
+  invert_power: false
+  colour: white
   show_daily: true
+  animation_speed: 6
+  max_power: 4500
+  show_absolute: false
+  auto_scale: true
+  hide_soc: false
+  dynamic_colour: true
+  linear_gradient: true
+  animate: true
+  path_threshold: 100
 solar:
+  colour: orange
   show_daily: true
   mppts: 2
+  animation_speed: 9
+  max_power: 9600
+  pv1_name: null
+  pv1_max_power: 4800
+  pv2_name: null
+  pv2_max_power: 4800
+  auto_scale: true
+  display_mode: 2
+  dynamic_colour: true
+  efficiency: 3
+  off_threshold: 0
 load:
+  colour: "#5fb6ad"
   show_daily: true
+  show_daily_aux: true
+  show_aux: true
+  invert_aux: false
+  show_absolute_aux: false
+  aux_name: Generator
+  aux_type: gen
+  aux_colour: green
+  aux_off_colour: red
+  aux_loads: 0
+  aux_load1_name: Aux load 1
+  aux_load2_name: Aux load 2
+  aux_load1_icon: mdi:air-filter
+  aux_load2_icon: mdi:stove
+  animation_speed: 8
+  max_power: 8000
+  additional_loads: 0
+  load1_name: Geyser
+  load2_name: Pool
+  load1_icon: boiler
+  load2_icon: mdi:pool
+  auto_scale: true
+  dynamic_colour: true
+  path_theshold: 100
+  off_threshold: 0
 grid:
+  colour: "#5490c2"
+  export_colour: brown
+  grid_off_colour: yellow
   show_daily_buy: true
-  show_daily_sell: false
+  show_daily_sell: true
+  no_grid_colour: "#a40013"
   show_nonessential: true
+  invert_grid: false
+  nonessential_name: EV Charger
+  nonessential_icon: none
+  additional_loads: 1
+  load1_name: Load 1
+  load1_icon: mdi:ev-station
+  load2_icon: ""
+  animation_speed: 8
+  max_power: 8900
+  auto_scale: true
+  off_threshold: 0
 entities:
-  use_timer_248: switch.sunsynk_toggle_system_timer
-  priority_load_243: switch.sunsynk_toggle_priority_load
-  inverter_voltage_154: sensor.solarsynk_inverter_voltage
-  load_frequency_192: sensor.solarsynk_load_frequency
-  inverter_current_164: sensor.solarsynk_inverter_current
-  inverter_power_175: sensor.solarsynk_inverter_power
-  grid_connected_status_194: binary_sensor.solarsynk_grid_connected_status
-  inverter_status_59: sensor.solarsynk_overall_state
-  day_battery_charge_70: sensor.solarsynk_day_battery_charge
-  day_battery_discharge_71: sensor.solarsynk_day_battery_discharge
-  battery_voltage_183: sensor.solarsynk_battery_voltage
-  battery_soc_184: sensor.solarsynk_battery_soc
-  battery_power_190: sensor.solarsynk_battery_power
-  battery_current_191: sensor.solarsynk_battery_current
-  grid_power_169: sensor.solarsynk_grid_power
-  day_grid_import_76: sensor.solarsynk_day_grid_import
-  day_grid_export_77: sensor.solarsynk_day_grid_export
-  grid_ct_power_172: sensor.solarsynk_grid_power
-  day_load_energy_84: sensor.solarsynk_day_load_energy
-  essential_power: none
-  nonessential_power: none
-  aux_power_166: sensor.sunsynk_aux_power
-  day_pv_energy_108: sensor.solarsynk_day_pv_energy
-  pv1_power_186: sensor.solarsynk_pv1_power
-  pv2_power_187: sensor.solarsynk_pv2_power
-  pv1_voltage_109: sensor.solarsynk_pv1_voltage
-  pv1_current_110: sensor.solarsynk_pv1_current
-  pv2_voltage_111: sensor.solarsynk_pv2_voltage
-  pv2_current_112: sensor.solarsynk_pv2_current
+  use_timer_248: sensor.solark_2009274158_use_timer
+  priority_load_243: sensor.solark_2009274158_priority_load
+  day_battery_charge_70: sensor.solark_2009274158_day_battery_charge
+  day_battery_discharge_71: sensor.solark_2009274158_day_battery_discharge
+  day_load_energy_84: sensor.solark_2009274158_day_load_energy
+  day_grid_import_76: sensor.solark_2009274158_day_grid_import
+  day_grid_export_77: sensor.solark_2009274158_day_grid_export
+  day_pv_energy_108: sensor.solark_2009274158_day_pv_energy
+  day_aux_energy: sensor.solark_2009274158_day_aux_energy
+  inverter_voltage_154: sensor.solark_2009274158_inverter_voltage
+  inverter_voltage_L2: sensor.solark_2009274158_inverter_voltage1
+  inverter_voltage_L3: null
+  load_frequency_192: sensor.solark_2009274158_load_frequency
+  inverter_current_164: sensor.solark_2009274158_inverter_current
+  inverter_current_L2: sensor.solark_2009274158_inverter_current1
+  inverter_current_L3: null
+  inverter_power_175: sensor.solark_2009274158_inverter_power
+  inverter power_L2: sensor.solark_2009274158_inverter_power1
+  grid_power_169: none
+  pv1_power_186: sensor.solark_2009274158_pv1_power
+  pv2_power_187: sensor.solark_2009274158_pv2_power
+  pv3_power_188: null
+  pv4_power_189: null
+  pv_total: null
+  pv1_voltage_109: sensor.solark_2009274158_pv1_voltage
+  pv1_current_110: sensor.solark_2009274158_pv1_current
+  pv2_voltage_111: sensor.solark_2009274158_pv2_voltage
+  pv2_current_112: sensor.solark_2009274158_pv2_current
+  pv3_voltage_113: null
+  pv3_current_114: null
+  pv4_voltage_115: null
+  pv4_current_116: null
+  battery_voltage_183: sensor.solark_2009274158_battery_voltage
+  battery_soc_184: sensor.solark_2009274158_battery_soc
+  battery_power_190: sensor.solark_2009274158_battery_power
+  battery_current_191: sensor.solark_2009274158_battery_current
+  essential_power: sensor.solark_2009274158_load_totalpower
+  essential_load1: null
+  essential_load2: null
+  essential_load1_extra: null
+  essential_load2_extra: null
+  nonessential_power: null
+  non_essential_load1: sensor.cph25_power_output
+  non_essential_load2: null
+  grid_ct_power_172: sensor.solark_2009274158_grid_power
+  grid_ct_power_L2: sensor.solark_2009274158_grid_power1
+  grid_ct_power_L3: null
+  grid_connected_status_194: sensor.solark_2009274158_grid_connected_status
+  inverter_status_59: sensor.solark_2009274158_overall_state
+  aux_power_166: null
+  aux_connected_status: null
+  remaining_solar: sensor.energy_production_today_remaining
+  battery_temp_182: sensor.solark_2009274158_battery_temperature
+  radiator_temp_91: sensor.solark_2009274158_ac_temperature
+  dc_transformer_temp_90: sensor.solark_2009274158_dc_temperature
+  environment_temp: sensor.midea_ac_151732605033847_indoor_temperature
+  prog1_time: sensor.solark_2009274158_time_slot_1
+  prog1_capacity: number.solark_2009274158_prog1_capacity
+  prog1_charge: switch.solark_2009274158_prog1_grid_charge
+  prog2_time: sensor.solark_2009274158_time_slot_2
+  prog2_capacity: number.solark_2009274158_prog2_capacity
+  prog2_charge: switch.solark_2009274158_prog2_grid_charge
+  prog3_time: sensor.solark_2009274158_time_slot_3
+  prog3_capacity: number.solark_2009274158_prog3_capacity
+  prog3_charge: switch.solark_2009274158_prog3_grid_charge
+  prog4_time: sensor.solark_2009274158_time_slot_4
+  prog4_capacity: number.solark_2009274158_prog4_capacity
+  prog4_charge: switch.solark_2009274158_prog4_grid_charge
+  prog5_time: sensor.solark_2009274158_time_slot_5
+  prog5_capacity: number.solark_2009274158_prog5_capacity
+  prog5_charge: switch.solark_2009274158_prog5_grid_charge
+  prog6_time: sensor.solark_2009274158_time_slot_6
+  prog6_capacity: number.solark_2009274158_prog6_capacity
+  prog6_charge: switch.solark_2009274158_prog6_grid_charge
+  energy_cost_buy: none
+  energy_cost_sell: none
+  solar_sell_247: switch.solark_2009274158_toggle_solar_sell
+  aux_load1: none
+  aux_load2: none
+  aux_load1_extra: none
+  aux_load2_extra: none
+  load_power_L1: sensor.solarsynk_2009274158_load_upspowerl1
+  load_power_L2: sensor.solarsynk_2009274158_load_upspowerl2
+  load_power_L3: null
+  total_pv_generation: none
+  battery_status: null
+  grid_ct_power_total: null
+  grid_voltage: sensor.solark_2009274158_grid_voltage
+  grid_voltage_L2: sensor.solark_2009274158_grid_voltage1
