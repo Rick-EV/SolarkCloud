@@ -55,7 +55,7 @@ while true; do
  	break
  else
  	echo "Invalid token received: Retrying..."
- 	ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"areaCode": "solark","client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","source": "solark","username": "'"$solarkk_user"'"}' | jq -r '.data.access_token')
+ 	ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"areaCode": "solark","client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","source": "solark","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
  	sleep 30
  fi
  done
