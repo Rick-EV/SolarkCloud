@@ -43,38 +43,23 @@ echo "HTTP Connect type:" $HTTP_Connect_Type
 
 echo "Getting bearer token from solar service provider's API."
 ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
+
 echo "Bearer Token length:" ${#ServerAPIBearerToken}
 
-#while true; do
-     # Fetch the token using curl
-#    ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
-     # Check if the token length is at least 5 characters
-# if [ ${#ServerAPIBearerToken} -ge 300 ]
-# then
-# 	echo "Valid token retrieved."
-# 	break
-# else
-# 	echo "Invalid token received: Retrying..."
-# 	ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
-# 	sleep 30
-# fi
-# done
-# echo "Bearer Token length:" ${#ServerAPIBearerToken}
- 
 #BOF Check if Token is valid
-#if [  -z "$ServerAPIBearerToken"  ]
-#then
-#	echo "****Token could not be retrieved due to the following possibilities****"
-#	echo "Incorrect setup, please check the configuration tab."
-#	echo "Either this HA instance cannot reach SolarkCloud due to network problems or the SolarkCloud server is down."
-#	echo "The SolarkCloud server admins are rejecting due to too frequent connection requests."
-#	echo ""
-#	echo "This Script will not continue to run but will continue to loop. No values were updated."
-#	echo "Dumping Curl output for more information below."
-#	ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
-#	echo $ServerAPIBearerToken
+if [  -z "$ServerAPIBearerToken"  ]
+then
+	echo "****Token could not be retrieved due to the following possibilities****"
+	echo "Incorrect setup, please check the configuration tab."
+	echo "Either this HA instance cannot reach SolarkCloud due to network problems or the SolarkCloud server is down."
+	echo "The SolarkCloud server admins are rejecting due to too frequent connection requests."
+	echo ""
+	echo "This Script will not continue to run but will continue to loop. No values were updated."
+	echo "Dumping Curl output for more information below."
+	ServerAPIBearerToken=$(curl -v -s -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.')
+	echo $ServerAPIBearerToken
 	
-#else
+else
 
 
 #echo "Solark Server API Token:" $ServerAPIBearerToken
@@ -100,14 +85,14 @@ rm -rf dcactemp.json
 rm -rf inverterinfo.json
 
 echo "Please wait while curl fetches input, grid, load, battery & output data..."
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/inverter/$inverter_serial/realtime/input -o "pvindata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/inverter/grid/$inverter_serial/realtime?sn=$inverter_serial -o "griddata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/inverter/load/$inverter_serial/realtime?sn=$inverter_serial -o "loaddata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" "https://api.solarkcloud.com/api/v1/inverter/battery/$inverter_serial/realtime?sn=$inverter_serial&lan=en" -o "batterydata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/inverter/$inverter_serial/realtime/output -o "outputdata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" "https://api.solarkcloud.com/api/v1/inverter/$inverter_serial/output/day?lan=en&date=$VarCurrentDate&column=dc_temp,igbt_temp" -o "dcactemp.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/inverter/$inverter_serial  -o "inverterinfo.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/common/setting/$inverter_serial/read  -o "settings.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/$inverter_serial/realtime/input -o "pvindata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/grid/$inverter_serial/realtime?sn=$inverter_serial -o "griddata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/load/$inverter_serial/realtime?sn=$inverter_serial -o "loaddata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" "https://www.solarkcloud.com/api/v1/inverter/battery/$inverter_serial/realtime?sn=$inverter_serial&lan=en" -o "batterydata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/$inverter_serial/realtime/output -o "outputdata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" "https://www.solarkcloud.com/api/v1/inverter/$inverter_serial/output/day?lan=en&date=$VarCurrentDate&column=dc_temp,igbt_temp" -o "dcactemp.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/$inverter_serial  -o "inverterinfo.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/common/setting/$inverter_serial/read  -o "settings.json"
 
 
 
@@ -131,9 +116,9 @@ echo "Inverter S/N:" $inverterinfo_serial
 echo ------------------------------------------------------------------------------
 
 #Unused
-#curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solark.com/api/v1/inverter/$solark_serial/flow -o "flowdata.json"
-# Read Settings https://api.solarkcloud.com/api/v1/common/setting/$solark_serial/read
-# Save Settings https://api.solarkcloud.com/api/v1/common/setting/$solark_serial/set
+#curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solark.com/api/v1/inverter/$solark_serial/flow -o "flowdata.json"
+# Read Settings https://www.solarkcloud.com/api/v1/common/setting/$solark_serial/read
+# Save Settings https://www.solarkcloud.com/api/v1/common/setting/$solark_serial/set
 
 
 echo "Data fetched for serial $inverter_serial. Enable verbose logging to see more information."
@@ -202,27 +187,18 @@ inverter_power2=$(jq -r '.data.vip[2].power' outputdata.json); if [ $inverter_po
 inverter_voltage2=$(jq -r '.data.vip[2].volt' outputdata.json); if [ $inverter_voltage2 == "null" ]; then inverter_voltage2="0"; fi;
 
 #Load Data
-load_frequency=$(jq -r '.data.loadFac' loaddata.json); if [ $load_frequency == "null" ]; then load_frequency="0"; fi;
- 
-load_voltage=$(jq -r '.data.vip[0].volt' loaddata.json); if [ $load_voltage == "null" ]; then load_voltage="0"; fi;
-load_voltage1=$(jq -r '.data.vip[1].volt' loaddata.json); if [ $load_voltage1 == "null" ]; then load_voltage1="0"; fi;
-load_voltage2=$(jq -r '.data.vip[2].volt' loaddata.json); if [ $load_voltage2 == "null" ]; then load_voltage2="0"; fi;
-
 load_current=$(jq -r '.data.vip[0].current' loaddata.json); if [ $load_current == "null" ]; then load_current="0"; fi;
-load_current1=$(jq -r '.data.vip[1].current' loaddata.json); if [ $load_current1 == "null" ]; then load_current1="0"; fi;
-load_current2=$(jq -r '.data.vip[2].current' loaddata.json); if [ $load_current2 == "null" ]; then load_current2="0"; fi;
- 
+load_frequency=$(jq -r '.data.loadFac' loaddata.json); if [ $load_frequency == "null" ]; then load_frequency="0"; fi;
 load_power=$(jq -r '.data.vip[0].power' loaddata.json); if [ $load_power == "null" ]; then load_power="0"; fi;
-load_power1=$(jq -r '.data.vip[1].power' loaddata.json); if [ $load_power1 == "null" ]; then load_power1="0"; fi;
-load_power2=$(jq -r '.data.vip[2].power' loaddata.json); if [ $load_power2 == "null" ]; then load_power2="0"; fi;
- 
+
 load_upsPowerL1=$(jq -r '.data.upsPowerL1' loaddata.json); if [ $load_upsPowerL1 == "null" ]; then load_upsPowerL1="0"; fi;
 load_upsPowerL2=$(jq -r '.data.upsPowerL2' loaddata.json); if [ $load_upsPowerL2 == "null" ]; then load_upsPowerL2="0"; fi;
 load_upsPowerL3=$(jq -r '.data.upsPowerL3' loaddata.json); if [ $load_upsPowerL3 == "null" ]; then load_upsPowerL3="0"; fi;
 load_upsPowerTotal=$(jq -r '.data.upsPowerTotal' loaddata.json); if [ $load_upsPowerTotal == "null" ]; then load_upsPowerTotal="0"; fi;
- 
+
 load_totalpower=$(jq -r '.data.totalPower' loaddata.json); if [ $load_totalpower == "null" ]; then load_totalpower="0"; fi;
-#EOF
+load_voltage=$(jq -r '.data.vip[0].volt' loaddata.json); if [ $load_voltage == "null" ]; then load_voltage="0"; fi;
+
 pv1_current=$(jq -r '.data.pvIV[0].ipv' pvindata.json); if [ $pv1_current == "null" ]; then pv1_current="0"; fi;
 pv1_power=$(jq -r '.data.pvIV[0].ppv' pvindata.json); if [ $pv1_power == "null" ]; then pv1_power="0"; fi;
 pv1_voltage=$(jq -r '.data.pvIV[0].vpv' pvindata.json); if [ $pv1_voltage == "null" ]; then pv1_voltage="0"; fi;
@@ -338,42 +314,33 @@ echo "inverter_current2" $inverter_current2
 
 
 #Load
-echo "load_frequency" $load_frequency
- 
 echo "load_current" $load_current
+echo "load_frequency" $load_frequency
 echo "load_power" $load_power
-echo "load_voltage" $load_voltage
-echo "load_current1" $load_current
-echo "load_power1" $load_power
-echo "load_voltage1" $load_voltage
-echo "load_current2" $load_current
-echo "load_power2" $load_power
-echo "load_voltage2" $load_voltage
- 
 echo "load_totalpower" $load_totalpower
- 
- 
+echo "load_voltage" $load_voltage
+
 echo "load_upsPowerL1" $load_upsPowerL1
 echo "load_upsPowerL2" $load_upsPowerL2
 echo "load_upsPowerL3" $load_upsPowerL3
 echo "load_upsPowerTotal" $load_upsPowerTotal
- 
- 
- 
+
+
+
 echo "pv1_current" $pv1_current
 echo "pv1_power" $pv1_power
 echo "pv1_voltage" $pv1_voltage
 echo "pv2_current" $pv2_current
 echo "pv2_power" $pv2_power
 echo "pv2_voltage" $pv2_voltage
- 
+
 echo "pv3_current" $pv3_current
 echo "pv3_power" $pv3_power
 echo "pv3_voltage" $pv3_voltage
 echo "pv4_current" $pv4_current
 echo "pv4_power" $pv4_power
 echo "pv4_voltage" $pv4_voltage
- 
+
 echo "overall_state" $overall_state
 #Settings Sensors
 echo "prog1_time:" $prog1_time
@@ -479,33 +446,19 @@ curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type
 
 
 #Load
- curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "frequency", "state_class":"measurement", "unit_of_measurement": "Hz", "friendly_name": "Load Freq"}, "state": "'"$load_frequency"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_frequency $EntityLogOutput
- 
- 
- #Load L0
- curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "power", "state_class":"measurement", "unit_of_measurement": "W", "friendly_name": "Load Power"}, "state": "'"$load_power"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_power $EntityLogOutput
- curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "voltage", "state_class":"measurement", "unit_of_measurement": "V", "friendly_name": "Load Voltage"}, "state": "'"$load_voltage"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_voltage $EntityLogOutput
- curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "current", "state_class":"measurement", "unit_of_measurement": "A", "friendly_name": "Load Current"}, "state": "'"$load_current"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_current $EntityLogOutput
- #Load L1
- curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "power", "state_class":"measurement", "unit_of_measurement": "W", "friendly_name": "Load Power1"}, "state": "'"$load_power1"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_power1 $EntityLogOutput
- curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "voltage", "state_class":"measurement", "unit_of_measurement": "V", "friendly_name": "Load Voltage1"}, "state": "'"$load_voltage1"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_voltage1 $EntityLogOutput
- curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "current", "state_class":"measurement", "unit_of_measurement": "A", "friendly_name": "Load Current1"}, "state": "'"$load_current1"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_current1 $EntityLogOutput
- #Load L2
- curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "power", "state_class":"measurement", "unit_of_measurement": "W", "friendly_name": "Load Power2"}, "state": "'"$load_power2"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_power1 $EntityLogOutput
- curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "voltage", "state_class":"measurement", "unit_of_measurement": "V", "friendly_name": "Load Voltage2"}, "state": "'"$load_voltage2"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_voltage2 $EntityLogOutput
- curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "current", "state_class":"measurement", "unit_of_measurement": "A", "friendly_name": "Load Current2"}, "state": "'"$load_current2"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_current2 $EntityLogOutput
- 
- 
- curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "power", "state_class":"measurement", "unit_of_measurement": "W", "friendly_name": "Load Total Power"}, "state": "'"$load_totalpower"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_totalpower $EntityLogOutput
- 
- 
- curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "power", "state_class":"measurement", "unit_of_measurement": "W", "friendly_name": "Load UPS Power L1"}, "state": "'"$load_upsPowerL1"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_upspowerl1 $EntityLogOutput
- curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "power", "state_class":"measurement", "unit_of_measurement": "W", "friendly_name": "Load UPS Power L2"}, "state": "'"$load_upsPowerL2"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_upspowerl2 $EntityLogOutput
- curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "power", "state_class":"measurement", "unit_of_measurement": "W", "friendly_name": "Load UPS Power L3"}, "state": "'"$load_upsPowerL3"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_upspowerl3 $EntityLogOutput
- curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "power", "state_class":"measurement", "unit_of_measurement": "W", "friendly_name": "Load UPS Power Total"}, "state": "'"$load_upsPowerTotal"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_loadupspowertotal $EntityLogOutput
- 
- 
- 
+curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "current", "state_class":"measurement", "unit_of_measurement": "A", "friendly_name": "Load Current"}, "state": "'"$load_current"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_current $EntityLogOutput
+curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "frequency", "state_class":"measurement", "unit_of_measurement": "Hz", "friendly_name": "Load Freq"}, "state": "'"$load_frequency"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_frequency $EntityLogOutput
+curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "power", "state_class":"measurement", "unit_of_measurement": "W", "friendly_name": "Load Power"}, "state": "'"$load_power"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_power $EntityLogOutput
+curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "power", "state_class":"measurement", "unit_of_measurement": "W", "friendly_name": "Load Total Power"}, "state": "'"$load_totalpower"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_totalpower $EntityLogOutput
+curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "voltage", "state_class":"measurement", "unit_of_measurement": "V", "friendly_name": "Load Voltage"}, "state": "'"$load_voltage"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_voltage $EntityLogOutput
+
+curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "power", "state_class":"measurement", "unit_of_measurement": "W", "friendly_name": "Load UPS Power L1"}, "state": "'"$load_upsPowerL1"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_upspowerl1 $EntityLogOutput
+curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "power", "state_class":"measurement", "unit_of_measurement": "W", "friendly_name": "Load UPS Power L2"}, "state": "'"$load_upsPowerL2"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_upspowerl2 $EntityLogOutput
+curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "power", "state_class":"measurement", "unit_of_measurement": "W", "friendly_name": "Load UPS Power L3"}, "state": "'"$load_upsPowerL3"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_load_upspowerl3 $EntityLogOutput
+curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "power", "state_class":"measurement", "unit_of_measurement": "W", "friendly_name": "Load UPS Power Total"}, "state": "'"$load_upsPowerTotal"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_loadupspowertotal $EntityLogOutput
+
+
+
 #SolarPanels
 curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "current", "state_class":"measurement", "unit_of_measurement": "A", "friendly_name": "PV1 Current"}, "state": "'"$pv1_current"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_pv1_current $EntityLogOutput
 curl -s -k -X POST -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json" -d '{"attributes": {"device_class": "power", "state_class":"measurement", "unit_of_measurement": "W", "friendly_name": "PV1 Power"}, "state": "'"$pv1_power"'"}' $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/sensor.solark_"$inverter_serial"_pv1_power $EntityLogOutput
@@ -560,7 +513,7 @@ CheckEntity=$(curl -s -k -X GET -H "Authorization: Bearer $HA_LongLiveToken" -H 
 if [ $CheckEntity == "Entity not found." ]
 then
 	echo "Entity does not exist! Manually create it for this inverter using the HA GUI in menu [Settings] -> [Devices & Services] -> [Helpers] tab -> [+ CREATE HELPER]. Choose [Text] and name it [solark_"$inverter_serial"_inverter_settings]"
-	echo "Settings pushback system aborted. Note this is not an error, setting up the inverter settings, push back is optional. It just means you omitted this part of the setup."
+	echo "Settings pushback system aborted. Note this is not an error, setting up the inverter settings push back is optional. It just means you omitted this part of the setup."
 	echo "------------------------------------------------------------------------------"	
 else
 	InverterSettings=$(curl -s -k -X GET -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json"  $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/input_text.solark_"$inverter_serial"_inverter_settings | jq -r '.state')
@@ -568,7 +521,7 @@ else
 	  echo "Helper entity input_text.solark_"$inverter_serial"_inverter_settings has no value. Therefore no inverter setting will be sent for change."
 	else
 		echo "Updating Helper: input_text.solark_"$inverter_serial"_inverter_settings with:" $InverterSettings
-		curl -s -k -X POST -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com//api/v1/common/setting/$inverter_serial/set -d $InverterSettings | jq -r '.'
+		curl -s -k -X POST -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com//api/v1/common/setting/$inverter_serial/set -d $InverterSettings | jq -r '.'
 	fi 
 	#Reset settings entities to prevent the same settings from being posted over and over
 	echo "Clearing previously set temporary settings."
@@ -583,7 +536,7 @@ done
 
 
 	
-#fi
+fi
 #EOF Check if Token is valid
 
 echo "All Done! Waiting " $Refresh_rate " seconds to rinse and repeat."
