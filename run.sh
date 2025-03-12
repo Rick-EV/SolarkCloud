@@ -42,39 +42,39 @@ echo "HTTP Connect type:" $HTTP_Connect_Type
 #echo $HA_LongLiveToken
 
 echo "Getting bearer token from solar service provider's API."
-#ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
-#echo "Bearer Token length:" ${#ServerAPIBearerToken}
+ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
+echo "Bearer Token length:" ${#ServerAPIBearerToken}
 
-while true; do
+#while true; do
      # Fetch the token using curl
-    ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
+#    ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
      # Check if the token length is at least 5 characters
- if [ ${#ServerAPIBearerToken} -ge 300 ]
- then
- 	echo "Valid token retrieved."
- 	break
- else
- 	echo "Invalid token received: Retrying..."
- 	ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
- 	sleep 30
- fi
- done
- echo "Bearer Token length:" ${#ServerAPIBearerToken}
+# if [ ${#ServerAPIBearerToken} -ge 300 ]
+# then
+# 	echo "Valid token retrieved."
+# 	break
+# else
+# 	echo "Invalid token received: Retrying..."
+# 	ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
+# 	sleep 30
+# fi
+# done
+# echo "Bearer Token length:" ${#ServerAPIBearerToken}
  
 #BOF Check if Token is valid
-if [  -z "$ServerAPIBearerToken"  ]
-then
-	echo "****Token could not be retrieved due to the following possibilities****"
-	echo "Incorrect setup, please check the configuration tab."
-	echo "Either this HA instance cannot reach SolarkCloud due to network problems or the SolarkCloud server is down."
-	echo "The SolarkCloud server admins are rejecting due to too frequent connection requests."
-	echo ""
-	echo "This Script will not continue to run but will continue to loop. No values were updated."
-	echo "Dumping Curl output for more information below."
-	ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
-	echo $ServerAPIBearerToken
+#if [  -z "$ServerAPIBearerToken"  ]
+#then
+#	echo "****Token could not be retrieved due to the following possibilities****"
+#	echo "Incorrect setup, please check the configuration tab."
+#	echo "Either this HA instance cannot reach SolarkCloud due to network problems or the SolarkCloud server is down."
+#	echo "The SolarkCloud server admins are rejecting due to too frequent connection requests."
+#	echo ""
+#	echo "This Script will not continue to run but will continue to loop. No values were updated."
+#	echo "Dumping Curl output for more information below."
+#	ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
+#	echo $ServerAPIBearerToken
 	
-else
+#else
 
 
 #echo "Solark Server API Token:" $ServerAPIBearerToken
