@@ -71,7 +71,7 @@ then
 	echo ""
 	echo "This Script will not continue to run but will continue to loop. No values were updated."
 	echo "Dumping Curl output for more information below."
-	ServerAPIBearerToken=$(curl -v -s -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.')
+	ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
 	echo $ServerAPIBearerToken
 	
 else
