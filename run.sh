@@ -583,7 +583,7 @@ done
 
 
 	
-fi
+#fi
 #EOF Check if Token is valid
 
 echo "All Done! Waiting " $Refresh_rate " seconds to rinse and repeat."
