@@ -1,6 +1,6 @@
 name: "SolarkCloud"
 description: "Home Assistant add-on for syncing solar/inverter data from MySolark.com"
-version: "2.1.18.1"
+version: "2.1.18.2"
 slug: "solark_cloud"
 init: false
 arch:
