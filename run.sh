@@ -47,7 +47,7 @@ echo "Getting bearer token from solar service provider's API."
 
 while true; do
      # Fetch the token using curl
-    ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"areaCode": "solark","client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","source": "solark","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
+    ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
      # Check if the token length is at least 5 characters
  if [ ${#ServerAPIBearerToken} -ge 300 ]
  then
@@ -55,7 +55,7 @@ while true; do
  	break
  else
  	echo "Invalid token received: Retrying..."
- 	ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"areaCode": "solark","client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","source": "solark","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
+ 	ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
  	sleep 30
  fi
  done
