@@ -1,3 +1,13 @@
+### 2024/11/13
+Version "2.1.18" - Added more entities
+Load UPS PowerL1
+Load UPS PowerL2
+Load UPS PowerL3
+Load UPS Total Power
+-Check for a valid sunsynk token before fetching data.
+-Added Phase 2 and 3 for load
+-Corrected PV3 and PV4 Voltage, Power & Current mapping.
+
 ### 2024/11/14
 Version "2.1.17" - Added more entities: 
 Load UPS PowerL1,
