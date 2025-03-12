@@ -42,12 +42,12 @@ echo "HTTP Connect type:" $HTTP_Connect_Type
 #echo $HA_LongLiveToken
 
 echo "Getting bearer token from solar service provider's API."
-#ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://www.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
+#ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
 #echo "Bearer Token length:" ${#ServerAPIBearerToken}
 
 while true; do
      # Fetch the token using curl
-    ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://www.solarkcloud.com/oauth/token -d '{"areaCode": "solark","client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","source": "solark","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
+    ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"areaCode": "solark","client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","source": "solark","username": "'"$solark_user"'"}' | jq -r '.data.access_token')
      # Check if the token length is at least 5 characters
  if [ ${#ServerAPIBearerToken} -ge 300 ]
  then
@@ -55,7 +55,7 @@ while true; do
  	break
  else
  	echo "Invalid token received: Retrying..."
- 	ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://www.solarkcloud.com/oauth/token -d '{"areaCode": "solark","client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","source": "solark","username": "'"$solarkk_user"'"}' | jq -r '.data.access_token')
+ 	ServerAPIBearerToken=$(curl -s -k -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"areaCode": "solark","client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","source": "solark","username": "'"$solarkk_user"'"}' | jq -r '.data.access_token')
  	sleep 30
  fi
  done
@@ -71,7 +71,7 @@ then
 	echo ""
 	echo "This Script will not continue to run but will continue to loop. No values were updated."
 	echo "Dumping Curl output for more information below."
-	ServerAPIBearerToken=$(curl -v -s -X POST -H "Content-Type: application/json" https://www.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.')
+	ServerAPIBearerToken=$(curl -v -s -X POST -H "Content-Type: application/json" https://api.solarkcloud.com/oauth/token -d '{"client_id": "csp-web","grant_type": "password","password": "'"$solark_pass"'","username": "'"$solark_user"'"}' | jq -r '.')
 	echo $ServerAPIBearerToken
 	
 else
@@ -100,14 +100,14 @@ rm -rf dcactemp.json
 rm -rf inverterinfo.json
 
 echo "Please wait while curl fetches input, grid, load, battery & output data..."
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/$inverter_serial/realtime/input -o "pvindata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/grid/$inverter_serial/realtime?sn=$inverter_serial -o "griddata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/load/$inverter_serial/realtime?sn=$inverter_serial -o "loaddata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" "https://www.solarkcloud.com/api/v1/inverter/battery/$inverter_serial/realtime?sn=$inverter_serial&lan=en" -o "batterydata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/$inverter_serial/realtime/output -o "outputdata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" "https://www.solarkcloud.com/api/v1/inverter/$inverter_serial/output/day?lan=en&date=$VarCurrentDate&column=dc_temp,igbt_temp" -o "dcactemp.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/$inverter_serial  -o "inverterinfo.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/common/setting/$inverter_serial/read  -o "settings.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/inverter/$inverter_serial/realtime/input -o "pvindata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/inverter/grid/$inverter_serial/realtime?sn=$inverter_serial -o "griddata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/inverter/load/$inverter_serial/realtime?sn=$inverter_serial -o "loaddata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" "https://api.solarkcloud.com/api/v1/inverter/battery/$inverter_serial/realtime?sn=$inverter_serial&lan=en" -o "batterydata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/inverter/$inverter_serial/realtime/output -o "outputdata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" "https://api.solarkcloud.com/api/v1/inverter/$inverter_serial/output/day?lan=en&date=$VarCurrentDate&column=dc_temp,igbt_temp" -o "dcactemp.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/inverter/$inverter_serial  -o "inverterinfo.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/common/setting/$inverter_serial/read  -o "settings.json"
 
 
 
@@ -131,9 +131,9 @@ echo "Inverter S/N:" $inverterinfo_serial
 echo ------------------------------------------------------------------------------
 
 #Unused
-#curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solark.com/api/v1/inverter/$solark_serial/flow -o "flowdata.json"
-# Read Settings https://www.solarkcloud.com/api/v1/common/setting/$solark_serial/read
-# Save Settings https://www.solarkcloud.com/api/v1/common/setting/$solark_serial/set
+#curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solark.com/api/v1/inverter/$solark_serial/flow -o "flowdata.json"
+# Read Settings https://api.solarkcloud.com/api/v1/common/setting/$solark_serial/read
+# Save Settings https://api.solarkcloud.com/api/v1/common/setting/$solark_serial/set
 
 
 echo "Data fetched for serial $inverter_serial. Enable verbose logging to see more information."
@@ -560,7 +560,7 @@ CheckEntity=$(curl -s -k -X GET -H "Authorization: Bearer $HA_LongLiveToken" -H 
 if [ $CheckEntity == "Entity not found." ]
 then
 	echo "Entity does not exist! Manually create it for this inverter using the HA GUI in menu [Settings] -> [Devices & Services] -> [Helpers] tab -> [+ CREATE HELPER]. Choose [Text] and name it [solark_"$inverter_serial"_inverter_settings]"
-	echo "Settings pushback system aborted. Note this is not an error, setting up inverter settings push back is optional. It just means you omitted this part of the setup."
+	echo "Settings pushback system aborted. Note this is not an error, setting up the inverter settings, push back is optional. It just means you omitted this part of the setup."
 	echo "------------------------------------------------------------------------------"	
 else
 	InverterSettings=$(curl -s -k -X GET -H "Authorization: Bearer $HA_LongLiveToken" -H "Content-Type: application/json"  $HTTP_Connect_Type://$Home_Assistant_IP:$Home_Assistant_PORT/api/states/input_text.solark_"$inverter_serial"_inverter_settings | jq -r '.state')
@@ -568,7 +568,7 @@ else
 	  echo "Helper entity input_text.solark_"$inverter_serial"_inverter_settings has no value. Therefore no inverter setting will be sent for change."
 	else
 		echo "Updating Helper: input_text.solark_"$inverter_serial"_inverter_settings with:" $InverterSettings
-		curl -s -k -X POST -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com//api/v1/common/setting/$inverter_serial/set -d $InverterSettings | jq -r '.'
+		curl -s -k -X POST -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com//api/v1/common/setting/$inverter_serial/set -d $InverterSettings | jq -r '.'
 	fi 
 	#Reset settings entities to prevent the same settings from being posted over and over
 	echo "Clearing previously set temporary settings."
