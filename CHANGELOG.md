@@ -1,3 +1,7 @@
+### 2025/03/12
+Version"2.1.18.1
+Correction of API call link and data queue.
+
 ### 2025/03/11
 Version "2.1.18" - Added more entities
 Load UPS PowerL1
