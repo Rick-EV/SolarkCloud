@@ -4,7 +4,7 @@ Load UPS PowerL1
 Load UPS PowerL2
 Load UPS PowerL3
 Load UPS Total Power
--Check for a valid sunsynk token before fetching data.
+-Check for a valid solark token before fetching data.
 -Added Phase 2 and 3 for load
 -Corrected PV3 and PV4 Voltage, Power & Current mapping.
 
