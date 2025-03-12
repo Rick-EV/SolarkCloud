@@ -1,6 +1,6 @@
 ### 2025/03/12
-Version"2.1.18.1
-Correction of API call link and data queue.
+Version"2.1.18.2
+Turn OFf of Token check coding.
 
 ### 2025/03/11
 Version "2.1.18" - Added more entities
