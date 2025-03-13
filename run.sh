@@ -85,14 +85,14 @@ rm -rf dcactemp.json
 rm -rf inverterinfo.json
 
 echo "Please wait while curl fetches input, grid, load, battery & output data..."
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/$inverter_serial/realtime/input -o "pvindata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/grid/$inverter_serial/realtime?sn=$inverter_serial -o "griddata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/load/$inverter_serial/realtime?sn=$inverter_serial -o "loaddata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" "https://www.solarkcloud.com/api/v1/inverter/battery/$inverter_serial/realtime?sn=$inverter_serial&lan=en" -o "batterydata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/$inverter_serial/realtime/output -o "outputdata.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" "https://www.solarkcloud.com/api/v1/inverter/$inverter_serial/output/day?lan=en&date=$VarCurrentDate&column=dc_temp,igbt_temp" -o "dcactemp.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/inverter/$inverter_serial  -o "inverterinfo.json"
-curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com/api/v1/common/setting/$inverter_serial/read  -o "settings.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/inverter/$inverter_serial/realtime/input -o "pvindata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/inverter/grid/$inverter_serial/realtime?sn=$inverter_serial -o "griddata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/inverter/load/$inverter_serial/realtime?sn=$inverter_serial -o "loaddata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" "https://api.solarkcloud.com/api/v1/inverter/battery/$inverter_serial/realtime?sn=$inverter_serial&lan=en" -o "batterydata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/inverter/$inverter_serial/realtime/output -o "outputdata.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" "https://api.solarkcloud.com/api/v1/inverter/$inverter_serial/output/day?lan=en&date=$VarCurrentDate&column=dc_temp,igbt_temp" -o "dcactemp.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/inverter/$inverter_serial  -o "inverterinfo.json"
+curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com/api/v1/common/setting/$inverter_serial/read  -o "settings.json"
 
 
 
