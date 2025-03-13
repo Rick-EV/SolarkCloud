@@ -117,8 +117,8 @@ echo ---------------------------------------------------------------------------
 
 #Unused
 #curl -s -k -X GET -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solark.com/api/v1/inverter/$solark_serial/flow -o "flowdata.json"
-# Read Settings https://www.solarkcloud.com/api/v1/common/setting/$solark_serial/read
-# Save Settings https://www.solarkcloud.com/api/v1/common/setting/$solark_serial/set
+# Read Settings https://api.solarkcloud.com/api/v1/common/setting/$solark_serial/read
+# Save Settings https://api.solarkcloud.com/api/v1/common/setting/$solark_serial/set
 
 
 echo "Data fetched for serial $inverter_serial. Enable verbose logging to see more information."
@@ -521,7 +521,7 @@ else
 	  echo "Helper entity input_text.solark_"$inverter_serial"_inverter_settings has no value. Therefore no inverter setting will be sent for change."
 	else
 		echo "Updating Helper: input_text.solark_"$inverter_serial"_inverter_settings with:" $InverterSettings
-		curl -s -k -X POST -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://www.solarkcloud.com//api/v1/common/setting/$inverter_serial/set -d $InverterSettings | jq -r '.'
+		curl -s -k -X POST -H "Content-Type: application/json" -H "authorization: Bearer $ServerAPIBearerToken" https://api.solarkcloud.com//api/v1/common/setting/$inverter_serial/set -d $InverterSettings | jq -r '.'
 	fi 
 	#Reset settings entities to prevent the same settings from being posted over and over
 	echo "Clearing previously set temporary settings."
